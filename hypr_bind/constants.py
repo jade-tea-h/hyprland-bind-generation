@@ -3,21 +3,20 @@
 from enum import Enum, StrEnum
 
 
-class Constants:
-    DEFAULT_SUBMAP = 'default'
+DEFAULT_SUBMAP: str = 'default'
 
-    ModKey = StrEnum('ModKey', ['SUPER', 'CTRL', 'ALT', 'SHIFT'])
-    ModKeyKeynames: dict[ModKey,tuple[str]|str] = {
-            ModKey.SUPER: ,
-            ModKey.CTRL: ,
-            ModKey.ALT: ('Alt_L', 'Alt_R'),
-            ModKey.SHIFT: ,
-        }
+FlagType = Enum('FlagType', ['LOCKED', 'RELEASE', 'REPEAT', 'MOUSE'])
+Flags: dict[FlagTypes, str] = {
+        FlagTypes.LOCKED: 'l',
+        FlagTypes.RELEASE: 'r',
+        FlagTypes.REPEAT: 'e',
+        FlagTypes.MOUSE: 'm',
+    }
 
-    FlagType = Enum('FlagType', ['LOCKED', 'RELEASE', 'REPEAT', 'MOUSE'])
-    Flags: dict[FlagTypes, str] = {
-            FlagTypes.LOCKED: 'l',
-            FlagTypes.RELEASE: 'r',
-            FlagTypes.REPEAT: 'e',
-            FlagTypes.MOUSE: 'm',
-        }
+ModKey = StrEnum('ModKey', ['SUPER', 'CTRL', 'ALT', 'SHIFT'])
+ModKeyKeynames: dict[ModKey, tuple[str] | str] = {
+        ModKey.SUPER: ('super_l'),
+        ModKey.CTRL: ('control_l', 'control_r'),
+        ModKey.ALT: ('alt_l', 'alt_r'),
+        ModKey.SHIFT: ('shift_l', 'shift_r'),
+    }

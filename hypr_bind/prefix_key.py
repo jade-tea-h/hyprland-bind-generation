@@ -2,7 +2,7 @@
 from io import StringIO
 from typing import Iterable, TypeAlias
 
-from constants import FlagType, ModKey
+from constants import FlagType, ModKey, KeyList
 from bind import Bind, exit_bind
 from dispatcher import Dispatcher
 
@@ -20,6 +20,7 @@ class PrefixKey(Bind):
         flags: FlagType | Iterable[FlagType] = None,
         secondary_binds: Iterable[BindType] = None,
         secondary_bind_groups: Iterable[Iterable[BindType]] = None,
+        pass_unbound_keys: bool = False,
     ) -> None:
         self.name = "_prefix_" + str(_counter)
         _counter += 1
@@ -36,6 +37,8 @@ class PrefixKey(Bind):
             for bind in bind_group:
                 bind_list.append(bind)
             self.binds.add(bind_list)
+
+        self.pass_unbound_keys = pass_unbound_keys
 
     def add_secondary_bind(bind: BindType) -> None:
         self.secondary_binds.add(list(bind))
@@ -61,6 +64,12 @@ class PrefixKey(Bind):
                     for _ in range(nest_level):
                         file.write('\t')
                     exit_bind(bind).to_file(file)
+        if not self.pass_unbound_keys:
+            for key in KeyList:
+                for mod in ModKeyCombos:
+                    for _ in range(nest_level):
+                        file.write('\t')
+                    Bind(mod, key).to_file(file)
         for _ in range(nest_level-1):
             file.write('\t')
         file.write("remap=" + DEFAULT_SUBMAP + '\n\n')

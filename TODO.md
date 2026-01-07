@@ -1,0 +1,3 @@
+# TODO:
+
+- [ ] shtab autocomplete generation
